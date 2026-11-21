@@ -1,0 +1,147 @@
+[
+  {
+    "name": "pfas_find_companies",
+    "description": "Find manufacturers that have published PFAS-in-products reports with the Minnesota Pollution Control Agency, by name. Returns company ids and names.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Part of a manufacturer name, e.g. \"Quaker\""
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max rows, 1-100 (default 25)"
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "pfas_find_chemicals",
+    "description": "Look up the PFAS chemicals on the Minnesota reporting list by name or CAS number. Returns the chemical id, name, CAS and EC number. Use this to see how a substance is listed before searching disclosures.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Chemical name fragment or CAS number, e.g. \"9002-84-0\" or \"tetrafluoroethylene\""
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max rows, 1-100 (default 25)"
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "pfas_search_disclosures",
+    "description": "Search published Minnesota PFAS-in-products disclosures: which manufacturer reported which PFAS chemical in which product component, its function and concentration band. Filter by manufacturer, chemical (name or CAS), function, brand, component, product code, concentration or period. Returns the matching rows and the total match count. Manufacturer contact persons are not served. Searches by brand, component or product code scan the full table and can take several seconds.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "Manufacturer name or part of it, e.g. \"Quaker Houghton\""
+        },
+        "chemical": {
+          "type": "string",
+          "description": "PFAS chemical name or part of it, or a CAS number, e.g. \"9002-84-0\" or \"PTFE\""
+        },
+        "function": {
+          "type": "string",
+          "description": "Why the PFAS is in the product, e.g. \"Surfactant\""
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand name contains"
+        },
+        "component": {
+          "type": "string",
+          "description": "Product component contains, e.g. \"Lubricating Greases\""
+        },
+        "product_code": {
+          "type": "string",
+          "description": "Part number or other product code contains"
+        },
+        "concentration_range": {
+          "type": "string",
+          "description": "Reported concentration band contains, e.g. \"100 ppm\""
+        },
+        "period": {
+          "type": "string",
+          "description": "Reporting period, e.g. \"2026\""
+        },
+        "limit": {
+          "type": "number",
+          "description": "Rows to return, 1-50 (default 20)"
+        },
+        "offset": {
+          "type": "number",
+          "description": "Rows to skip, for paging (default 0)"
+        }
+      }
+    }
+  },
+  {
+    "name": "pfas_summary",
+    "description": "Count published Minnesota PFAS-in-products disclosures grouped by chemical, function, manufacturer, concentration band or reporting period, optionally filtered the same way as pfas_search_disclosures. Returns the groups with counts, largest first, and the number of disclosures matched.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "group_by": {
+          "type": "string",
+          "enum": [
+            "chemical",
+            "function",
+            "manufacturer",
+            "concentration_range",
+            "period"
+          ],
+          "description": "What to count by (default chemical)"
+        },
+        "company": {
+          "type": "string",
+          "description": "Manufacturer name or part of it, e.g. \"Quaker Houghton\""
+        },
+        "chemical": {
+          "type": "string",
+          "description": "PFAS chemical name or part of it, or a CAS number, e.g. \"9002-84-0\" or \"PTFE\""
+        },
+        "function": {
+          "type": "string",
+          "description": "Why the PFAS is in the product, e.g. \"Surfactant\""
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand name contains"
+        },
+        "component": {
+          "type": "string",
+          "description": "Product component contains, e.g. \"Lubricating Greases\""
+        },
+        "product_code": {
+          "type": "string",
+          "description": "Part number or other product code contains"
+        },
+        "concentration_range": {
+          "type": "string",
+          "description": "Reported concentration band contains, e.g. \"100 ppm\""
+        },
+        "period": {
+          "type": "string",
+          "description": "Reporting period, e.g. \"2026\""
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max groups, 1-100 (default 20)"
+        }
+      }
+    }
+  }
+]
